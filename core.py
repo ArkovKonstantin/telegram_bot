@@ -52,6 +52,7 @@ def main():
             last_chat_text = data[0]['message']['text']
             last_chat_id = data[0]['message']['chat']['id']
             last_chat_name = data[0]['message']['chat']['first_name']
+            greet_bot.send_message(last_chat_id, now.hour)
 
             if last_chat_text.lower() in greetings and 6 <= now.hour < 12:
                 text = f'Доброе утро {last_chat_name}'
