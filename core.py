@@ -37,8 +37,10 @@ class BotHandler:
 token = '701024118:AAGy_Kby9-yuLFn0FUWNlFipBb0v1EiGUTg'
 greet_bot = BotHandler(token)
 
-greetings = ('здравствуй', 'привет', 'ку', 'здорово')
 now = datetime.datetime.now()
+
+commands = ('/week',)
+start_date = datetime.date(2018, 9, 3)
 
 
 def main():
@@ -51,20 +53,34 @@ def main():
             last_update_id = data[0]['update_id']
             last_chat_text = data[0]['message']['text']
             last_chat_id = data[0]['message']['chat']['id']
-            last_chat_name = data[0]['message']['chat']['first_name']
-            greet_bot.send_message(last_chat_id, now.hour)
+            # last_chat_name = data[0]['message']['chat']['first_name']
+            # greet_bot.send_message(last_chat_id, now.hour)
 
-            if last_chat_text.lower() in greetings and 6 <= now.hour < 12:
-                text = f'Доброе утро {last_chat_name}'
+            if last_chat_text.strip().lower() == '/week':
+                now_date = datetime.datetime.now().date()
+                print(now_date - start_date)
+                week_num = (now_date - start_date).days // 7 + 1
+
+                if week_num % 2 == 0:
+                    parity = 'Знаменатель'
+                else:
+                    parity = 'Числитель'
+
+                text = f'Сейчас {week_num} неделя ({parity})'
                 greet_bot.send_message(last_chat_id, text)
 
-            if last_chat_text.lower() in greetings and 12 <= now.hour < 17:
-                text = f'Добрый день {last_chat_name}'
-                greet_bot.send_message(last_chat_id, text)
 
-            if last_chat_text.lower() in greetings and 17 <= now.hour < 23:
-                text = f'Доброе вечер {last_chat_name}'
-                greet_bot.send_message(last_chat_id, text)
+            # if last_chat_text.lower() in greetings and 6 <= now.hour < 12:
+            #     text = f'Доброе утро {last_chat_name}'
+            #     greet_bot.send_message(last_chat_id, text)
+            #
+            # if last_chat_text.lower() in greetings and 12 <= now.hour < 17:
+            #     text = f'Добрый день {last_chat_name}'
+            #     greet_bot.send_message(last_chat_id, text)
+            #
+            # if last_chat_text.lower() in greetings and 17 <= now.hour < 23:
+            #     text = f'Доброе вечер {last_chat_name}'
+            #     greet_bot.send_message(last_chat_id, text)
 
             new_offset = last_update_id + 1
 
