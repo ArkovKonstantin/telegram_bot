@@ -59,7 +59,8 @@ def polling():
                 else:
                     parity = 'Числитель'
 
-                text = f'Сейчас {week_num} неделя ({parity})'
+                # text = f'Сейчас {week_num} неделя ({parity})'
+                text = "Привет"
                 greet_bot.send_message(last_chat_id, text)
 
             if last_chat_text.strip().lower() == '/add':
