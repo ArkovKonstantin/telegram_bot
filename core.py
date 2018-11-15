@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import datetime
+import config
 
 
 class BotHandler:
@@ -9,6 +10,7 @@ class BotHandler:
     def __init__(self, token):
         self.token = token
         self.api_url = "https://api.telegram.org/bot{}/".format(token)
+        self.handlers = {}
 
     def get_updates(self, offset=None, timeout=30):
         method = 'getUpdates'
@@ -34,16 +36,9 @@ class BotHandler:
         return last_update
 
 
-token = '701024118:AAGy_Kby9-yuLFn0FUWNlFipBb0v1EiGUTg'
-greet_bot = BotHandler(token)
-
-now = datetime.datetime.now()
-
-commands = ('/week',)
-start_date = datetime.date(2018, 9, 3)
-
-
-def main():
+def polling():
+    greet_bot = BotHandler(config.token)
+    start_date = datetime.date(2018, 9, 3)
     new_offset = None
 
     while True:
@@ -53,8 +48,6 @@ def main():
             last_update_id = data[0]['update_id']
             last_chat_text = data[0]['message']['text']
             last_chat_id = data[0]['message']['chat']['id']
-            # last_chat_name = data[0]['message']['chat']['first_name']
-            # greet_bot.send_message(last_chat_id, now.hour)
 
             if last_chat_text.strip().lower() == '/week':
                 now_date = datetime.datetime.now().date()
@@ -69,24 +62,14 @@ def main():
                 text = f'Сейчас {week_num} неделя ({parity})'
                 greet_bot.send_message(last_chat_id, text)
 
-
-            # if last_chat_text.lower() in greetings and 6 <= now.hour < 12:
-            #     text = f'Доброе утро {last_chat_name}'
-            #     greet_bot.send_message(last_chat_id, text)
-            #
-            # if last_chat_text.lower() in greetings and 12 <= now.hour < 17:
-            #     text = f'Добрый день {last_chat_name}'
-            #     greet_bot.send_message(last_chat_id, text)
-            #
-            # if last_chat_text.lower() in greetings and 17 <= now.hour < 23:
-            #     text = f'Доброе вечер {last_chat_name}'
-            #     greet_bot.send_message(last_chat_id, text)
+            if last_chat_text.strip().lower() == '/add':
+                pass
 
             new_offset = last_update_id + 1
 
 
 if __name__ == '__main__':
     try:
-        main()
+        polling()
     except KeyboardInterrupt:
         exit()

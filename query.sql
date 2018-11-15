@@ -1,5 +1,7 @@
 CREATE TABLE reminders (
-    reminder_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    render_text TEXT NOT NULL,
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    type TEXT NOT NULL,
     reminder_date datetime  NOT NULL
     );
+

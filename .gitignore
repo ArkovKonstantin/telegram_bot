@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.idea/
+
+# Environments
+
+my_env/
+
+# Database
+
+schedule.db
+
+__init__.py
+config.py
