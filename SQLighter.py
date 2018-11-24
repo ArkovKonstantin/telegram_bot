@@ -16,3 +16,9 @@ class SQLighter:
     def save(self, data):
         self._cursor.execute(f'insert into reminders (type, title, reminder_date) values {tuple(data)};')
         self._connection.commit()
+
+    def get_reminders(self):
+        self._cursor.execute('select reminder_date, type, title  from reminders order by reminder_date;')
+        text = '\n'.join([' '.join(map(str, reminder)) for reminder in self._cursor.fetchall()])
+
+        return text

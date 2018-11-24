@@ -97,7 +97,9 @@ def polling():
                 bot.send_message(chat_id, text)
 
             if last_chat_text.strip().lower() == '/list':
-                pass
+                with SQLighter(config.db_name) as db_worker:
+                    text = db_worker.get_reminders()
+                    bot.send_message(chat_id, text)
 
             new_offset = last_update_id + 1
 
